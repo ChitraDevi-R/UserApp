@@ -6,4 +6,8 @@ class HomeController < ApplicationController
 	  	 # @posts = Post.all
 	      # @posts = Post.order("name").page(params[:page]).per(4)
 	end
+
+	def get_barcode
+		binding.pry
+	end
 end

@@ -16,6 +16,7 @@
 //= require quagga
 //= require_tree .
 
+
 function order_by_occurrence(arr) {
   var counts = {};
   arr.forEach(function(value){
@@ -31,23 +32,36 @@ function order_by_occurrence(arr) {
 }
 
 function load_quagga(){
-  if ($('#barcode-scanner').length > 0 && navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
+  if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
 
     var last_result = [];
     if (Quagga.initialized == undefined) {
       Quagga.onDetected(function(result) {
         var last_code = result.codeResult.code;
         last_result.push(last_code);
-        if (last_result.length > 20) {
+        // alert(last_result);
+        // if (last_result.length > 20) {
           code = order_by_occurrence(last_result)[0];
           last_result = [];
+          // alert(code);
           Quagga.stop();
-          $.ajax({
-            type: "POST",
-            url: '/product/get_barcode',
-            data: { upc: code }
-          });
-        }
+          window.location.href = "http://192.168.43.241:3000/get_barcode?barcode="+code
+          // $.ajax({
+          //   type: "post",
+          //   url: '/get_barcode',
+          //   // data: { upc: code },
+          //   data: "{uname:'" + code + "',password:'" + code + "'}",
+          //   datatype: "json",
+          //   cache: false,
+          //   async: false,
+          //   contentType: "application/json; charset=utf-8",
+          //   success : function(data) {
+          //       alert("success");
+                
+          //   }
+          // });
+          
+        // }
       });
     }
 
@@ -69,4 +83,3 @@ function load_quagga(){
 
   }
 };
-// $(document).on('turbolinks:load', load_quagga);

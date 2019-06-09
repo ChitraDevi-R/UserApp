@@ -9,8 +9,8 @@ class ProductController < ApplicationController
 
   # POST /products/get_barcode
   def get_barcode
-    @product = Product.find_or_initialize_by(upc: params[:upc])
     binding.pry
+    @product = Product.find_or_initialize_by(upc: params[:upc])
     unless @product.new_record?
       redirect_to @product
     else
